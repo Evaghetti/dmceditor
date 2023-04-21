@@ -34,7 +34,15 @@ window.onload = () => {
             allFirstAttackSprite = digimonDatabase.map(d => d.attackSprite1);
             allSecondtAttackSprite = digimonDatabase.map(d => d.attackSprite2);
 
-            document.getElementById("digimon-list")?.appendChild(createDigimonElement(names[0], digimonDatabase[0]));
+            document.getElementById("digimon-list")?.appendChild(
+                createDigimonElement(
+                    names[0],
+                    digimonDatabase[0],
+                    allSpritesId,
+                    allFirstAttackSprite,
+                    allSecondtAttackSprite
+                )
+            );
 
             console.log(digimonDatabase);
         };

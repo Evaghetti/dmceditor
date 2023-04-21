@@ -68,12 +68,45 @@ function createHourInputDigimon(content: string, bidingHour: BidingOption, bidin
     return result;
 }
 
-function createDigimonElement(name: string, digimon: DigimonStats): HTMLElement {
+function createDigimonElement(
+    name: string,
+    digimon: DigimonStats,
+    allSpritesId: number[],
+    allFirstAttackSprite: number[],
+    allSecondtAttackSprite: number[]
+): HTMLElement {
     const result: HTMLDivElement = document.createElement("div");
     result.classList.add("digimon")
 
+    const configSpriteSelect: SelectOption[] = allSpritesId.map((x): SelectOption => {
+        return {
+            display: `0x${x.toString(16)}`,
+            value: x
+        };
+    });
+
+    const configFirstAttackSpriteSelect: SelectOption[] = allFirstAttackSprite.map((x): SelectOption => {
+        return {
+            display: `0x${x.toString(16)}`,
+            value: x
+        };
+    });
+
+    const configSecondAttackSpriteSelect: SelectOption[] = allSecondtAttackSprite.map((x): SelectOption => {
+        return {
+            display: `0x${x.toString(16)}`,
+            value: x
+        };
+    });
+
     result.appendChild(createInputTextDigimon(name, null));
-    // TODO: ID Sprite Select
+
+    result.appendChild(createSelectDigimon("ID Sprite: ", {
+        defaultValue: digimon.spriteID,
+        selectOptions: configSpriteSelect,
+        listener: (x) => digimon.spriteID = x
+    }));
+
     result.appendChild(createSelectDigimon("Estagio ", {
         defaultValue: digimon.stage,
         selectOptions: [{
@@ -97,18 +130,22 @@ function createDigimonElement(name: string, digimon: DigimonStats): HTMLElement 
         }],
         listener: (v) => digimon.stage = v
     }));
+
     result.appendChild(createInputTextDigimon("Stamina máxima", {
         defaultValue: digimon.maxStamina,
         listener: (v) => digimon.maxStamina = v
     }));
+
     result.appendChild(createInputTextDigimon("Peso minimo", {
         defaultValue: digimon.minWheight,
         listener: (v) => digimon.minWheight = v
     }));
+
     result.appendChild(createInputTextDigimon("Tempo p/ evoluir", {
         defaultValue: digimon.evoTimer,
         listener: (v) => digimon.evoTimer = v
     }));
+
     result.appendChild(createHourInputDigimon("Quando dormir, ", {
         defaultValue: digimon.sleepHour,
         listener: (v) => digimon.sleepHour = v
@@ -116,6 +153,7 @@ function createDigimonElement(name: string, digimon: DigimonStats): HTMLElement 
         defaultValue: digimon.sleepMin,
         listener: (v) => digimon.sleepMin = v
     }));
+
     result.appendChild(createHourInputDigimon("Quando acordar, ", {
         defaultValue: digimon.wakeHour,
         listener: (v) => digimon.wakeHour = v
@@ -123,22 +161,27 @@ function createDigimonElement(name: string, digimon: DigimonStats): HTMLElement 
         defaultValue: digimon.wakeMin,
         listener: (v) => digimon.wakeMin = v
     }));
+
     result.appendChild(createInputTextDigimon("Tempo p/ sentir fome", {
         defaultValue: digimon.hungerTimer,
         listener: (v) => digimon.hungerTimer = v
     }));
+
     result.appendChild(createInputTextDigimon("Tempo p/ perder força", {
         defaultValue: digimon.strenghtDecayTimer,
         listener: (v) => digimon.strenghtDecayTimer = v
     }));
+
     result.appendChild(createInputTextDigimon("Tempo p/ cagar", {
         defaultValue: digimon.poopTimer,
         listener: (v) => digimon.poopTimer = v
     }));
+
     result.appendChild(createInputTextDigimon("Quantidade necessaria p/ curar", {
         defaultValue: digimon.healAmount,
         listener: (v) => digimon.healAmount = v
     }));
+
     result.appendChild(createSelectDigimon("Atributo ", {
         defaultValue: digimon.attribute,
         selectOptions: [{
@@ -156,12 +199,24 @@ function createDigimonElement(name: string, digimon: DigimonStats): HTMLElement 
         }],
         listener: (v) => digimon.attribute = v
     }));
+
     result.appendChild(createInputTextDigimon("Poder", {
         defaultValue: digimon.power,
         listener: (v) => digimon.power = v
     }));
-    // TODO: Select attack sprite 1
-    // TODO: Select attack sprite 2
+
+    result.appendChild(createSelectDigimon("Sprite de ataque 1: ", {
+        defaultValue: digimon.attackSprite1,
+        selectOptions: configFirstAttackSpriteSelect,
+        listener: (x) => digimon.attackSprite1 = x
+    }));
+
+    result.appendChild(createSelectDigimon("Sprite de ataque 1: ", {
+        defaultValue: digimon.attackSprite2,
+        selectOptions: configSecondAttackSpriteSelect,
+        listener: (x) => digimon.attackSprite2 = x
+    }));
+
     return result;
 }
 
