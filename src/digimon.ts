@@ -1,8 +1,8 @@
 const SIZE_BYTES_DIGIMON: number = 34;
 const MAX_COUNT_DIGIMONS: number = 18;
 
-const VERSION_1_OFFSET = 0;
-const VERSION_2_OFFSET = 0;
+const VERSION_1_OFFSET = 71594;
+const VERSION_2_OFFSET = 71056;
 
 class DigimonStats {
     spriteID: number = 0;
@@ -20,7 +20,7 @@ class DigimonStats {
     healAmount: number = 0;
     attribute: number = 0;
     power: number = 0;
-    atackSprite: number = 0;
+    attackSprite1: number = 0;
     attackSprite2: number = 0;
 }
 

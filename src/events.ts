@@ -1,4 +1,7 @@
 let digimonDatabase: DigimonStats[] = [];
+let allSpritesId: number[] = [];
+let allFirstAttackSprite: number[] = [];
+let allSecondtAttackSprite: number[] = [];
 
 window.onload = () => {
     const formFile: HTMLFormElement = document.forms[0];
@@ -25,6 +28,14 @@ window.onload = () => {
 
                 digimonDatabase.push(digimon);
             }
+
+            const names: string[] = getDigimonNames(versionOffset);
+            allSpritesId = digimonDatabase.map(d => d.spriteID);
+            allFirstAttackSprite = digimonDatabase.map(d => d.attackSprite1);
+            allSecondtAttackSprite = digimonDatabase.map(d => d.attackSprite2);
+
+            document.getElementById("digimon-list")?.appendChild(createDigimonElement(names[0], digimonDatabase[0]));
+
             console.log(digimonDatabase);
         };
 
