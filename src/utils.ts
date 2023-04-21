@@ -3,25 +3,44 @@ interface BidingOption {
     listener: (newValue: number) => void
 }
 
+function createInputDigimon(biding: BidingOption, minValue: number = 0, maxValue: number = 65535): HTMLInputElement {
+    const resultInput = document.createElement("input") as HTMLInputElement;
+    resultInput.value = biding.defaultValue.toString();
+    resultInput.addEventListener("input", (event: Event) => {
+        if (event.target) {
+            const realTarget = event.target as HTMLInputElement;
+            biding.listener(parseInt(realTarget.value));
+        }
+    });
+    resultInput.type = "number";
+    resultInput.min = minValue.toString();
+    resultInput.max = maxValue.toString();
+    return resultInput;
+}
+
 function createInputTextDigimon(content: string, biding: BidingOption | null): HTMLElement {
     const result = document.createElement("p");
     result.innerHTML = content;
 
-    if (biding) {
-        const resultInput = document.createElement("input") as HTMLInputElement;
-        resultInput.value = biding.defaultValue.toString();
-        resultInput.addEventListener("input", (event: Event) => {
-            if (event.target) {
-                const realTarget = event.target as HTMLInputElement;
-                biding.listener(parseInt(realTarget.value));
-            }
-        });
-        resultInput.type = "number";
-        resultInput.min = "0";
-        resultInput.max = "65535";
+    if (biding)
+        result.appendChild(createInputDigimon(biding));
 
-        result.appendChild(resultInput);
-    }
+    return result;
+}
+
+function createHourInputDigimon(content: string, bidingHour: BidingOption, bidingMinute: BidingOption): HTMLElement {
+    const result = document.createElement("p");
+    result.innerHTML = content;
+
+    let span = document.createElement("span") as HTMLSpanElement;
+    span.innerHTML = "Hora ";
+    span.appendChild(createInputDigimon(bidingHour, 0, 23));
+    result.appendChild(span);
+
+    span = document.createElement("span") as HTMLSpanElement;
+    span.innerHTML = " Minuto ";
+    span.appendChild(createInputDigimon(bidingMinute, 0, 59));
+    result.appendChild(span);
 
     return result;
 }
@@ -45,8 +64,20 @@ function createDigimonElement(name: string, digimon: DigimonStats): HTMLElement 
         defaultValue: digimon.evoTimer,
         listener: (v) => digimon.evoTimer = v
     }));
-    // TODO: Time sleep
-    // TODO: Time wake
+    result.appendChild(createHourInputDigimon("Quando dormir, ", {
+        defaultValue: digimon.sleepHour,
+        listener: (v) => digimon.sleepHour = v
+    }, {
+        defaultValue: digimon.sleepMin,
+        listener: (v) => digimon.sleepMin = v
+    }));
+    result.appendChild(createHourInputDigimon("Quando acordar, ", {
+        defaultValue: digimon.wakeHour,
+        listener: (v) => digimon.wakeHour = v
+    }, {
+        defaultValue: digimon.wakeMin,
+        listener: (v) => digimon.wakeMin = v
+    }));
     result.appendChild(createInputTextDigimon("Tempo p/ sentir fome", {
         defaultValue: digimon.hungerTimer,
         listener: (v) => digimon.hungerTimer = v
