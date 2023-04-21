@@ -34,15 +34,17 @@ window.onload = () => {
             allFirstAttackSprite = digimonDatabase.map(d => d.attackSprite1);
             allSecondtAttackSprite = digimonDatabase.map(d => d.attackSprite2);
 
-            document.getElementById("digimon-list")?.appendChild(
-                createDigimonElement(
-                    names[0],
-                    digimonDatabase[0],
-                    allSpritesId,
-                    allFirstAttackSprite,
-                    allSecondtAttackSprite
-                )
-            );
+            for (let i = 0; i < names.length; i++) {
+                document.getElementById("digimon-list")?.appendChild(
+                    createDigimonElement(
+                        names[i],
+                        digimonDatabase[i],
+                        allSpritesId,
+                        allFirstAttackSprite,
+                        allSecondtAttackSprite
+                    )
+                );
+            }
 
             console.log(digimonDatabase);
         };
