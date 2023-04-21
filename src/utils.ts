@@ -1,17 +1,18 @@
+interface SelectOption {
+    value: number,
+    display: string
+}
+
 interface BidingOption {
     defaultValue: number,
+    selectOptions?: SelectOption[],
     listener: (newValue: number) => void
 }
 
 function createInputDigimon(biding: BidingOption, minValue: number = 0, maxValue: number = 65535): HTMLInputElement {
-    const resultInput = document.createElement("input") as HTMLInputElement;
+    const resultInput: HTMLInputElement = document.createElement("input");
     resultInput.value = biding.defaultValue.toString();
-    resultInput.addEventListener("input", (event: Event) => {
-        if (event.target) {
-            const realTarget = event.target as HTMLInputElement;
-            biding.listener(parseInt(realTarget.value));
-        }
-    });
+    resultInput.addEventListener("input", (event: Event) => biding.listener(parseInt(resultInput.value)));
     resultInput.type = "number";
     resultInput.min = minValue.toString();
     resultInput.max = maxValue.toString();
@@ -19,8 +20,8 @@ function createInputDigimon(biding: BidingOption, minValue: number = 0, maxValue
 }
 
 function createInputTextDigimon(content: string, biding: BidingOption | null): HTMLElement {
-    const result = document.createElement("p");
-    result.innerHTML = content;
+    const result: HTMLParagraphElement = document.createElement("p");
+    result.innerText = content;
 
     if (biding)
         result.appendChild(createInputDigimon(biding));
@@ -28,17 +29,39 @@ function createInputTextDigimon(content: string, biding: BidingOption | null): H
     return result;
 }
 
-function createHourInputDigimon(content: string, bidingHour: BidingOption, bidingMinute: BidingOption): HTMLElement {
-    const result = document.createElement("p");
-    result.innerHTML = content;
+function createSelectDigimon(label: string, biding: BidingOption): HTMLElement {
+    if (biding.selectOptions === undefined)
+        throw "Needs multiples valus to create select";
 
-    let span = document.createElement("span") as HTMLSpanElement;
-    span.innerHTML = "Hora ";
+    const result = createInputTextDigimon(label, null);
+
+    const resultSelect: HTMLSelectElement = document.createElement("select");
+    resultSelect.addEventListener("change", (ev) => biding.listener(parseInt(resultSelect.value)));
+    for (let currentOptionConfig of biding.selectOptions) {
+        const option: HTMLOptionElement = document.createElement("option");
+        option.value = currentOptionConfig.value.toString();
+        option.innerText = currentOptionConfig.display;
+        if (currentOptionConfig.value === biding.defaultValue)
+            option.selected = true;
+
+        resultSelect.options.add(option);
+    }
+
+    result.appendChild(resultSelect);
+    return result;
+}
+
+function createHourInputDigimon(content: string, bidingHour: BidingOption, bidingMinute: BidingOption): HTMLElement {
+    const result: HTMLParagraphElement = document.createElement("p");
+    result.innerText = content;
+
+    let span: HTMLSpanElement = document.createElement("span") as HTMLSpanElement;
+    span.innerText = "Hora ";
     span.appendChild(createInputDigimon(bidingHour, 0, 23));
     result.appendChild(span);
 
     span = document.createElement("span") as HTMLSpanElement;
-    span.innerHTML = " Minuto ";
+    span.innerText = " Minuto ";
     span.appendChild(createInputDigimon(bidingMinute, 0, 59));
     result.appendChild(span);
 
@@ -46,12 +69,34 @@ function createHourInputDigimon(content: string, bidingHour: BidingOption, bidin
 }
 
 function createDigimonElement(name: string, digimon: DigimonStats): HTMLElement {
-    const result = document.createElement("div");
+    const result: HTMLDivElement = document.createElement("div");
     result.classList.add("digimon")
 
     result.appendChild(createInputTextDigimon(name, null));
     // TODO: ID Sprite Select
-    // TODO: Stage select
+    result.appendChild(createSelectDigimon("Estagio ", {
+        defaultValue: digimon.stage,
+        selectOptions: [{
+            display: "Bebê 1",
+            value: 0
+        }, {
+            display: "Bebê 2",
+            value: 1
+        }, {
+            display: "Criança",
+            value: 2,
+        }, {
+            display: "Adulto",
+            value: 3
+        }, {
+            display: "Perfeito",
+            value: 4
+        }, {
+            display: "Definitivo",
+            value: 5
+        }],
+        listener: (v) => digimon.stage = v
+    }));
     result.appendChild(createInputTextDigimon("Stamina máxima", {
         defaultValue: digimon.maxStamina,
         listener: (v) => digimon.maxStamina = v
@@ -94,7 +139,23 @@ function createDigimonElement(name: string, digimon: DigimonStats): HTMLElement 
         defaultValue: digimon.healAmount,
         listener: (v) => digimon.healAmount = v
     }));
-    // TODO: Attribute select
+    result.appendChild(createSelectDigimon("Atributo ", {
+        defaultValue: digimon.attribute,
+        selectOptions: [{
+            display: "Free",
+            value: 0
+        }, {
+            display: "Virus",
+            value: 1
+        }, {
+            display: "Data",
+            value: 2,
+        }, {
+            display: "Vacina",
+            value: 3
+        }],
+        listener: (v) => digimon.attribute = v
+    }));
     result.appendChild(createInputTextDigimon("Poder", {
         defaultValue: digimon.power,
         listener: (v) => digimon.power = v
