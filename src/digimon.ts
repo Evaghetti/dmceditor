@@ -70,7 +70,7 @@ function getDigimonNames(input: number): string[] {
         case VERSION_1_OFFSET:
             return ["Botamon", "Koromon", "Agumon", "Betamon", "Greymon", "Tyranomon", "Devimon", "Meramon", "Airdramon", "Seadramon", "Numemon", "Metal Greymon", "Mamemon", "Monzaemon", "BlitzGreymon", "BanchoMamemon", "ShinMonzaemon", "Omegamon Alter-S"];
         case VERSION_2_OFFSET:
-            return [];
+            return ["Punimon", "Tsunomon", "Gabumon", "Elecmon", "Kabuterimon", "Garurumon", "Angemon", "Yukidarumon", "Birdramon", "Whamon", "Vegimon", "SkullGreymon", "MetalMamemon", "Vademon", "Skull Mammon", "CresGarurumon", "Ebemon", "Omegamon Alter S"];
     }
     return ["Should not get here"];
 }
