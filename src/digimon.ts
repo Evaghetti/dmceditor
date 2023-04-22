@@ -46,7 +46,7 @@ function convertDigimonToBinary(stats: DigimonStats): Uint8Array {
     let offset = 0;
     iterateFields(stats, (currentField: number) => {
         retData[offset] = (currentField & 0b011111111);
-        retData[offset + 1] = (currentField & 0b01111111100000000);
+        retData[offset + 1] = (currentField & 0b01111111100000000) >> 8;
 
         offset += 2;
         return undefined;
