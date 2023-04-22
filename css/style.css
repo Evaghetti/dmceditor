@@ -112,7 +112,7 @@
 }
 
 body {
-    background-color: blue;
+    background-color: #146C94;
 }
 
 h1,
@@ -142,7 +142,7 @@ header {
 form {
     flex-wrap: wrap;
     justify-content: center;
-    background-color: white;
+    background-color: #F6F1F1;
     padding-bottom: 1%;
     padding-right: 1%;
     padding-left: 1%;
@@ -162,14 +162,22 @@ form div {
     flex-wrap: nowrap;
     width: 100%;
     overflow-x: auto;
+    padding-left: 0.5em;
+    padding-top: 0.5em;
+    padding-right: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.digimon-list:has(.digimon) {
+    background-color: #19A7CE;
+    border-radius: 8px;
 }
 
 .digimon-list .digimon {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    background-color: white;
-    margin-bottom: 1em;
+    background-color: #F6F1F1;
     padding: 1em;
 }
 
@@ -184,4 +192,9 @@ form div {
 
 .digimon:not(:first-child) {
     margin-left: 8.3333333333%;
+}
+
+form,
+.digimon-list .digimon {
+    border-radius: 8px;
 }
