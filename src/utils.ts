@@ -21,11 +21,22 @@ function createInputDigimon(biding: BidingOption, minValue: number = 0, maxValue
 
 function createInputTextDigimon(content: string, biding: BidingOption | null): HTMLElement {
     const result: HTMLParagraphElement = document.createElement("p");
-    result.innerText = content;
+    const resultSpan: HTMLSpanElement = document.createElement("span");
 
-    if (biding)
-        result.appendChild(createInputDigimon(biding));
+    result.appendChild(resultSpan);
+    resultSpan.innerText = content;
 
+    if (biding) {
+        const input = createInputDigimon(biding);
+        input.classList.add("col-6");
+        resultSpan.classList.add("col-6");
+        result.appendChild(input);
+    }
+    else {
+        resultSpan.classList.add("col-12");
+    }
+
+    result.classList.add("col-12");
     return result;
 }
 
@@ -34,9 +45,15 @@ function createSelectDigimon(label: string, biding: BidingOption): HTMLElement {
         throw "Needs multiples valus to create select";
 
     const result = createInputTextDigimon(label, null);
+    const spanText = result.children.item(0);
+    if (spanText) {
+        spanText.classList.remove("col-12");
+        spanText.classList.add("col-6");
+    }
 
     const resultSelect: HTMLSelectElement = document.createElement("select");
     resultSelect.addEventListener("change", (ev) => biding.listener(parseInt(resultSelect.value)));
+    resultSelect.classList.add("col-6");
     for (let currentOptionConfig of biding.selectOptions) {
         const option: HTMLOptionElement = document.createElement("option");
         option.value = currentOptionConfig.value.toString();
@@ -52,19 +69,30 @@ function createSelectDigimon(label: string, biding: BidingOption): HTMLElement {
 }
 
 function createHourInputDigimon(content: string, bidingHour: BidingOption, bidingMinute: BidingOption): HTMLElement {
-    const result: HTMLParagraphElement = document.createElement("p");
-    result.innerText = content;
+    const result = createInputTextDigimon(content, null);
+    const spanText = result.children.item(0);
+    if (spanText) {
+        spanText.classList.remove("col-12");
+        spanText.classList.add("col-6");
+    }
 
     let span: HTMLSpanElement = document.createElement("span") as HTMLSpanElement;
-    span.innerText = "Hora ";
-    span.appendChild(createInputDigimon(bidingHour, 0, 23));
+    span.innerHTML = `<span class='col-6'>Hora:</span>`;
+    span.classList.add("col-3", "container");
+    let input = createInputDigimon(bidingHour, 0, 23);
+    input.classList.add("col-6");
+    span.appendChild(input);
     result.appendChild(span);
 
     span = document.createElement("span") as HTMLSpanElement;
-    span.innerText = " Minuto ";
-    span.appendChild(createInputDigimon(bidingMinute, 0, 59));
+    span.innerHTML = `<span class='col-6'>Minuto:</span>`;
+    span.classList.add("col-3", "container");
+    input = createInputDigimon(bidingHour, 0, 59);
+    input.classList.add("col-6");
+    span.appendChild(input);
     result.appendChild(span);
 
+    result.classList.add("col-12");
     return result;
 }
 
@@ -76,7 +104,8 @@ function createDigimonElement(
     allSecondtAttackSprite: number[]
 ): HTMLElement {
     const result: HTMLDivElement = document.createElement("div");
-    result.classList.add("digimon")
+    result.classList.add("digimon");
+    result.classList.add("col-4");
 
     const configSpriteSelect: SelectOption[] = allSpritesId.map((x): SelectOption => {
         return {
@@ -99,7 +128,9 @@ function createDigimonElement(
         };
     });
 
-    result.appendChild(createInputTextDigimon(name, null));
+    const nameDigimon = createInputTextDigimon(name, null);
+    nameDigimon.classList.add("name");
+    result.appendChild(nameDigimon);
 
     result.appendChild(createSelectDigimon("ID Sprite: ", {
         defaultValue: digimon.spriteID,

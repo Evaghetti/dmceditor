@@ -2,114 +2,42 @@
 <html lang="en">
 
 <head>
+    <title>Editor DMC</title>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/style.css">
+
     <script src="lib/utils.js"></script>
     <script src="lib/digimon.js"></script>
     <script src="lib/events.js"></script>
-    <title>Editor DMC</title>
 </head>
 
 <body>
-    <form action="#" id="form-version">
-        <p>Selecione versão: </p>
-        <label for="version">
-            Versão 1
-            <input type="radio" name="version" id="version1" value="71594">
-        </label>
-        <label for="version">
-            Versão 2
-            <input type="radio" name="version" id="version2" value="71056">
-        </label>
-        <label>
-            ROM: <input type="file" name="rom" id="rom">
-        </label><br>
-        <input type="submit" value="Carregar">
-    </form>
-
+    <header>
+        <h1 class="col-12">DMC Editor</h1>
+        <h2 class="col-12">Digital monster color por que sim</h2>
+        <form class="col-8 offset-2" action="#" id="form-version">
+            <p class="offset-1 col-2">Selecione versão: </p>
+            <p class="col-5">
+                <span>Versão 1</span>
+                <input type="radio" checked name="version" id="version1" value="71594">
+            </p>
+            <p class="col-4">
+                <span>Versão 2</span>
+                <input type="radio" name="version" id="version2" value="71056">
+            </p>
+            <p class="col-4">
+                <span class="col-3">ROM:</span>
+                <input class="col-9" type="file" name="rom" id="rom">
+            </p>
+            <input class="offset-1 col-3" type="submit" value="Carregar">
+            <button class="offset-1 col-3" disabled>Salvar</button>
+        </form>
+    </header>
     <div class="digimon-list" id="digimon-list">
-        <!-- <div class="digimon">
-            <p>Botamon</p>
-            <p>
-                ID Sprite:
-                <select name="spriteSelect" id="spriteid">
-                    <option value="sla">Sla</option>
-                    <option value="sla2">Sla2</option>
-                    <option value="sla3">Sla3</option>
-                </select>
-            </p>
-            <p>
-                Estagio:
-                <select name="stageSelect" id="spriteid">
-                    <option value="0">Bebê 1</option>
-                    <option value="1">Bebê 2</option>
-                    <option value="2">Criança</option>
-                    <option value="3">Adulto</option>
-                    <option value="4">Perfeito</option>
-                    <option value="5">Definitivo</option>
-                </select>
-            </p>
-            <p>
-                Stamina maxima: <input type="number" value="0" min="0" max="65535">
-            </p>
-            <p>
-                Peso minimo: <input type="number" value="0" min="0" max="65535">
-            </p>
-            <p>
-                Tempo para evoluir: <input type="number" value="0" min="0" max="65535">
-            </p>
-            <p>
-                Quando dormir,
-                Hora: <input type="number" value="0" min="0" max="23">
-                Minutos: <input type="number" value="0" min="0" max="59">
-            </p>
-            <p>
-                Quando acordar,
-                Hora: <input type="number" value="0" min="0" max="23">
-                Minutos: <input type="number" value="0" min="0" max="59">
-            </p>
-            <p>
-                Tempo para sentir fome: <input type="number" value="0" min="0" max="65535">
-            </p>
-            <p>
-                Tempo para perder força: <input type="number" value="0" min="0" max="65535">
-            </p>
-            <p>
-                Tempo para cagar: <input type="number" value="0" min="0" max="65535">
-            </p>
-            <p>
-                Quantas vezes é preciso curar: <input type="number" value="0" min="0" max="65535">
-            </p>
-            <p>
-                Atributo:
-                <select name="attributeSelect" id="attributeId">
-                    <option value="9">Free</option>
-                    <option value="1">Virus</option>
-                    <option value="2">Data</option>
-                    <option value="3">Vacina</option>
-                </select>
-            </p>
-            <p>
-                Poder: <input type="number" value="0" min="0" max="65535">
-            </p>
-            <p>
-                ID Sprite Ataque 1:
-                <select name="attackSprite1Select" id="attackSprite1Id">
-                    <option value="sla">Sla</option>
-                    <option value="sla2">Sla2</option>
-                    <option value="sla3">Sla3</option>
-                </select>
-            </p>
-            <p>
-                ID Sprite Ataque 2:
-                <select name="attackSprite2Select" id="attackSprite2Id">
-                    <option value="sla">Sla</option>
-                    <option value="sla2">Sla2</option>
-                    <option value="sla3">Sla3</option>
-                </select>
-            </p>
-        </div> -->
     </div>
 </body>
 
