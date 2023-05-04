@@ -1,9 +1,11 @@
 let digimonDatabase: DigimonStats[] = [];
+let stageDatabase: Stage[] = [];
 let allSpritesId: number[] = [];
 let allFirstAttackSprite: number[] = [];
 let allSecondtAttackSprite: number[] = [];
 let fileContent: Uint8Array;
 let versionOffset: number;
+let stagesOffset: number;
 
 window.onload = () => {
     const formFile: HTMLFormElement = document.forms[0];
@@ -13,6 +15,7 @@ window.onload = () => {
         ev.preventDefault();
 
         const fileElement: HTMLInputElement = document.getElementById("rom") as HTMLInputElement;
+        const [rawVersionOffset, rawStageOffset] = (formFile.elements.namedItem("version") as RadioNodeList).value.split(";");
 
         const fileReader: FileReader = new FileReader();
         fileReader.onload = (ev) => {
@@ -20,8 +23,10 @@ window.onload = () => {
                 return;
 
             fileContent = convertBase64ToBinary(ev.target.result as string);
-            versionOffset = parseInt((formFile.elements.namedItem("version") as RadioNodeList).value);
+            versionOffset = parseInt(rawVersionOffset);
+            stagesOffset = parseInt(rawStageOffset);
 
+            stageDatabase = getAllStages(fileContent.subarray(stagesOffset));
             digimonDatabase = [];
             for (let i = versionOffset; i < versionOffset + (SIZE_BYTES_DIGIMON * MAX_COUNT_DIGIMONS); i += SIZE_BYTES_DIGIMON) {
                 const currentData: Uint8Array = fileContent.subarray(i, i + SIZE_BYTES_DIGIMON);
@@ -65,6 +70,14 @@ window.onload = () => {
 
             for (let i = 0; i < digimonBytes.length; i++)
                 fileContent[currentOffset + i] = digimonBytes[i];
+        });
+
+        stageDatabase.forEach((stage, index) => {
+            const currentOffset = stagesOffset + MAX_SIZE_STAGE * index;
+            const stageBytes = convertStageToBinary(stage);
+
+            for (let i = 0; i < stageBytes.length; i++)
+                fileContent[currentOffset + i] = stageBytes[i];
         });
 
         const resultFile = new File([fileContent], "MODDED.bin", undefined);

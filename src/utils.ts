@@ -267,3 +267,13 @@ function convertBase64ToBinary(base64Content: string): Uint8Array {
 function convertToNumber(data: Uint8Array): number {
     return (data[1] << 8) | (data[0]);
 }
+
+function iterateFields<T>(target: T, callback: (value: number) => number | undefined): void {
+    for (let key in target) {
+        const ret = callback(target[key] as number);
+
+        if (ret !== undefined) {
+            target[key] = ret as any;
+        }
+    }
+}

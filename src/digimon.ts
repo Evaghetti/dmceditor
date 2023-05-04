@@ -55,16 +55,6 @@ function convertDigimonToBinary(stats: DigimonStats): Uint8Array {
     return retData;
 }
 
-function iterateFields<T extends DigimonStats>(target: T, callback: (value: number) => number | undefined): void {
-    for (let key in target) {
-        const ret = callback(target[key] as number);
-
-        if (ret !== undefined) {
-            target[key] = ret as any;
-        }
-    }
-}
-
 function getDigimonNames(input: number): string[] {
     switch (input) {
         case VERSION_1_OFFSET:
