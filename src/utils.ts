@@ -251,6 +251,43 @@ function createDigimonElement(
     return result;
 }
 
+function createStageElement(indexStage: number, digimonNameList: string[], stage: Stage): HTMLElement {
+    const result: HTMLDivElement = document.createElement("div");
+    result.classList.add("stage", "col-4");
+
+    const stageTitle = createInputTextDigimon(`Stage ${indexStage}#`, null);
+    stageTitle.classList.add("name");
+    result.appendChild(stageTitle);
+
+    for (let battle of stage.battles) {
+        const options: SelectOption[] = digimonNameList.map((name, index): SelectOption => {
+            return {
+                display: name,
+                value: index
+            };
+        });
+
+        const selectDigimon = createSelectDigimon("Digimon", {
+            defaultValue: battle.digimon,
+            listener: (newValue) => battle.digimon = newValue,
+            selectOptions: options
+        });
+        selectDigimon.classList.remove("col-12");
+        selectDigimon.classList.add("col-6");
+        result.appendChild(selectDigimon);
+
+        const inputPowerDigimon = createInputTextDigimon("Power", {
+            defaultValue: battle.power,
+            listener: (newValue) => battle.power = newValue
+        });
+        inputPowerDigimon.classList.remove("col-12");
+        inputPowerDigimon.classList.add("col-6");
+        result.appendChild(inputPowerDigimon);
+    }
+
+    return result;
+}
+
 function convertBase64ToBinary(base64Content: string): Uint8Array {
     base64Content = base64Content.split(",")[1];
 

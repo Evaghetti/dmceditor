@@ -53,6 +53,16 @@ window.onload = () => {
                     )
                 );
             }
+
+            for (let i = 0; i < stageDatabase.length; i++) {
+                document.getElementById("stage-list")?.appendChild(
+                    createStageElement(i + 1, names, stageDatabase[i])
+                );
+            }
+
+            let elements = document.getElementsByClassName("subtitle")
+            for (let i = 0; i < elements.length; i++)
+                elements.item(i)?.removeAttribute("hidden");
             buttonSave.disabled = false;
             console.log(digimonDatabase);
         };

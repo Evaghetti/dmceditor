@@ -136,7 +136,6 @@ header {
 
 header {
     flex-direction: column;
-    margin-bottom: 1em;
 }
 
 form {
@@ -156,7 +155,8 @@ form div {
     flex-direction: row;
 }
 
-.digimon-list {
+.digimon-list,
+.stage-list {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -168,33 +168,47 @@ form div {
     padding-bottom: 0.5em;
 }
 
-.digimon-list:has(.digimon) {
+.digimon-list,
+.stage-list,
+.subtitle {
+    margin-top: 1em;
+}
+
+.digimon-list:has(.digimon),
+.stage-list:has(.stage) {
     background-color: #19A7CE;
     border-radius: 8px;
 }
 
-.digimon-list .digimon {
+.digimon-list .digimon,
+.stage-list .stage {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     background-color: #F6F1F1;
     padding: 1em;
+    align-items: center;
+    justify-content: center;
 }
 
-.digimon p {
+.digimon p,
+.stage p {
     display: flex;
     flex-direction: row;
 }
 
-.digimon .name {
+.digimon .name,
+.stage .name {
     text-align: center;
 }
 
-.digimon:not(:first-child) {
+.digimon:not(:first-child),
+.stage:not(:first-child) {
     margin-left: 8.3333333333%;
 }
 
 form,
-.digimon-list .digimon {
+.digimon-list .digimon,
+.stage-list .stage {
     border-radius: 8px;
 }
